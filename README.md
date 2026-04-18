@@ -225,4 +225,4 @@ Spec-Driven Development — Wikipedia
 AGENTS.md Guide — Antigravity Rules
 ---
 > **Projeto acadêmico** — Trabalho de Pesquisa: SPEC-Driven Development no Google Antigravity
-> Disciplina: Engenharia de Software
+> Disciplina: Desenvolvimento Web
