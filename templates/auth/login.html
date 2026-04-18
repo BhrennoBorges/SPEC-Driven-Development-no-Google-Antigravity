@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}Entrar - TodoApp{% endblock %}
+
+{% block content %}
+<div class="form-card" style="margin-top: 4rem;">
+    <h2 style="margin-bottom: 2rem; text-align: center;">Bem-vindo de volta</h2>
+    
+    <form method="POST">
+        {{ form.hidden_tag() }}
+        
+        <div class="form-group">
+            {{ form.username.label }}
+            {{ form.username(class="form-control", placeholder="Seu usuário") }}
+            {% if form.username.errors %}
+                {% for error in form.username.errors %}
+                    <span class="error-msg">{{ error }}</span>
+                {% endfor %}
+            {% endif %}
+        </div>
+        
+        <div class="form-group">
+            {{ form.password.label }}
+            {{ form.password(class="form-control", placeholder="Sua senha") }}
+            {% if form.password.errors %}
+                {% for error in form.password.errors %}
+                    <span class="error-msg">{{ error }}</span>
+                {% endfor %}
+            {% endif %}
+        </div>
+        
+        <div style="margin-top: 2rem;">
+            {{ form.submit(class="btn btn-primary btn-block") }}
+        </div>
+    </form>
+    
+    <div style="margin-top: 1.5rem; text-align: center; font-size: 0.9rem; color: var(--text-secondary);">
+        Ainda não tem conta? <a href="{{ url_for('auth.register') }}" style="color: var(--primary-color); text-decoration: none;">Crie uma aqui</a>
+    </div>
+</div>
+{% endblock %}

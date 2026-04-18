@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}TodoApp{% endblock %}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-brand">
+            <a href="{{ url_for('tasks.index') }}">TodoApp.</a>
+        </div>
+        <div class="nav-links">
+            {% if current_user.is_authenticated %}
+                <span>Olá, {{ current_user.username }}</span>
+                <a href="{{ url_for('tasks.new_task') }}" class="btn btn-primary" style="padding: 0.4rem 0.8rem; font-size: 0.9rem;">+ Nova Tarefa</a>
+                <a href="{{ url_for('auth.logout') }}">Sair</a>
+            {% else %}
+                <a href="{{ url_for('auth.login') }}">Entrar</a>
+                <a href="{{ url_for('auth.register') }}" class="btn btn-primary">Registrar</a>
+            {% endif %}
+        </div>
+    </nav>
+
+    <main class="container">
+        <div class="flash-messages">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }}">{{ message }}</div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+        </div>
+
+        {% block content %}{% endblock %}
+    </main>
+</body>
+</html>

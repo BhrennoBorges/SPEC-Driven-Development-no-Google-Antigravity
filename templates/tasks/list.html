@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block title %}Minhas Tarefas - TodoApp{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h2>Minhas Tarefas</h2>
+</div>
+
+<div class="filters">
+    <a href="{{ url_for('tasks.index') }}" class="filter-pill {% if not current_filter %}active{% endif %}">Todas</a>
+    <a href="{{ url_for('tasks.index', status='pendente') }}" class="filter-pill {% if current_filter == 'pendente' %}active{% endif %}">Pendentes</a>
+    <a href="{{ url_for('tasks.index', status='em_progresso') }}" class="filter-pill {% if current_filter == 'em_progresso' %}active{% endif %}">Em Progresso</a>
+    <a href="{{ url_for('tasks.index', status='concluído') }}" class="filter-pill {% if current_filter == 'concluído' %}active{% endif %}">Concluídas</a>
+</div>
+
+{% if tasks %}
+    <div class="task-grid">
+        {% for task in tasks %}
+            <div class="task-card">
+                <div class="task-header">
+                    <h3 class="task-title">{{ task.title }}</h3>
+                    <span class="task-status status-{{ task.status.name.lower() }}">{{ task.status.value }}</span>
+                </div>
+                <div class="task-desc">
+                    {{ task.description or 'Sem descrição' }}
+                </div>
+                <div class="task-actions">
+                    <a href="{{ url_for('tasks.edit_task', task_id=task.id) }}" class="btn btn-outline" style="padding: 0.4rem 0.8rem; font-size: 0.85rem; flex: 1;">Editar</a>
+                    <form action="{{ url_for('tasks.destroy_task', task_id=task.id) }}" method="POST" style="flex: 1; display:flex;">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                        <button type="submit" class="btn btn-danger" style="padding: 0.4rem 0.8rem; font-size: 0.85rem; width: 100%;">Excluir</button>
+                    </form>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <div class="empty-state">
+        <h3>Nenhuma tarefa encontrada</h3>
+        <p>Parece que você está com tudo em dia! Aproveite o descanso ou crie uma nova tarefa.</p>
+        <a href="{{ url_for('tasks.new_task') }}" class="btn btn-primary">+ Nova Tarefa</a>
+    </div>
+{% endif %}
+{% endblock %}
